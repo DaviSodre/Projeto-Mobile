@@ -1,45 +1,50 @@
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { Ionicons } from '@expo/vector-icons'; // Importa os ícones
+import LoginScreen from '../screens/LoginScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import HomeScreen from '../screens/HomeScreen'; // Certifique-se de ter esta tela
+import SettingsScreen from '../screens/SettingsScreen'; // Se você tiver uma tela de configurações
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-// Importar as telas
-import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
-
-const Drawer = createDrawerNavigator();
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
 
-function AppTabs() {
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName;
+const AppNavigator = () => (
+  <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
+      {/* Adicione outras telas aqui se necessário */}
+    </Stack.Navigator>
+  </NavigationContainer>
+);
 
-          if (route.name === 'Início') {
-            iconName = 'home';
-          } else if (route.name === 'Configurações') {
-            iconName = 'settings';
-          }
+const BottomTabNavigator = () => (
+  <Tab.Navigator>
+    <Tab.Screen
+      name="Home"
+      component={HomeScreen}
+      options={{
+        tabBarLabel: 'Início',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="home" color={color} size={size} />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="Settings"
+      component={SettingsScreen}
+      options={{
+        tabBarLabel: 'Configurações',
+        tabBarIcon: ({ color, size }) => (
+          <MaterialCommunityIcons name="cogs" color={color} size={size} />
+        ),
+      }}
+    />
+  </Tab.Navigator>
+);
 
-          return <Ionicons name={iconName} size={size} color={color} />;
-        },
-      })}
-    >
-      <Tab.Screen name="Início" component={HomeScreen} />
-      <Tab.Screen name="Configurações" component={SettingsScreen} />
-    </Tab.Navigator>
-  );
-}
-
-export default function AppNavigator() {
-  return (
-    <NavigationContainer>
-      <Drawer.Navigator>
-        <Drawer.Screen name="Tabs" component={AppTabs} />
-      </Drawer.Navigator>
-    </NavigationContainer>
-  );
-}
+export default AppNavigator;
