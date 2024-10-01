@@ -11,17 +11,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
-const AppNavigator = () => (
-  <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      {/* Adicione outras telas aqui se necessário */}
-    </Stack.Navigator>
-  </NavigationContainer>
-);
-
 const BottomTabNavigator = () => (
   <Tab.Navigator>
     <Tab.Screen
@@ -45,6 +34,16 @@ const BottomTabNavigator = () => (
       }}
     />
   </Tab.Navigator>
+);
+
+const AppNavigator = () => (
+  <NavigationContainer>
+    <Stack.Navigator>
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Main" component={BottomTabNavigator} options={{ headerShown: false }} />
+    </Stack.Navigator>
+  </NavigationContainer>
 );
 
 export default AppNavigator;
