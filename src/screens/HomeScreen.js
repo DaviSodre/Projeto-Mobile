@@ -1,14 +1,22 @@
 import React from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons'; // Importando o ícone do Material Icons
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tela Inicial</Text>
-      <Button
-        title="Ir para Configurações"
-        onPress={() => navigation.navigate('Configurações')}
-      />
+      <TouchableOpacity style={styles.box}>
+        <Icon name="person" size={30} color="#fff" />
+        <Text style={styles.boxText}>Perfil</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.box}>
+        <Icon name="settings" size={30} color="#fff" />
+        <Text style={styles.boxText}>Configurações</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.box}>
+        <Icon name="list-alt" size={30} color="#fff" />
+        <Text style={styles.boxText}>Pedidos</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -18,10 +26,22 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#f5f5f5',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  box: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#6200ee',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 20,
+    width: '90%',
+  },
+  boxText: {
+    color: '#fff',
+    fontSize: 18,
+    marginLeft: 10,
   },
 });
 
