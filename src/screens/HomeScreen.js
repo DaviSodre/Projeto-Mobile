@@ -1,19 +1,24 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Importando o ícone do Material Icons
+import Icon from 'react-native-vector-icons/MaterialIcons'; 
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen = () => {
+  const navigation = useNavigation(); // Hook para navegação
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.box}>
+      <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Perfil')}>
         <Icon name="person" size={30} color="#fff" />
         <Text style={styles.boxText}>Perfil</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.box}>
+
+      <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Configurações')}>
         <Icon name="settings" size={30} color="#fff" />
         <Text style={styles.boxText}>Configurações</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.box}>
+
+      <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Pedidos')}>
         <Icon name="list-alt" size={30} color="#fff" />
         <Text style={styles.boxText}>Pedidos</Text>
       </TouchableOpacity>

@@ -27,6 +27,7 @@ const LoginScreen = () => {
         onChangeText={setUsername}
         style={styles.input}
       />
+      
       <TextInput
         placeholder="Password"
         value={password}
@@ -35,6 +36,7 @@ const LoginScreen = () => {
         style={styles.input}
       />
       <Button title="Login" onPress={handleLogin} />
+      <Text></Text>
       <Button title="Registrar" onPress={() => navigation.navigate('Register')} />
       {message ? <Text>{message}</Text> : null}
     </View>
