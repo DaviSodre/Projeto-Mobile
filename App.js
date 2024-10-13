@@ -6,7 +6,8 @@ import RegisterScreen from './src/screens/RegisterScreen'; // Ajuste o caminho c
 import HomeScreen from './src/screens/HomeScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 import ProfileScreen from './src/screens/ProfileScreen';
-import PedidosScreen from './src/screens/PedidosScreen'; // Ajuste o caminho conforme necessário
+import PedidosScreen from './src/screens/PedidosScreen';
+import Cadastro2 from './src/screens/Cadastro2' // Ajuste o caminho conforme necessário
 import TabNavigator from './src/navigation/TabNavigator'; 
 import DrawerNavigator from './src/navigation/DrawerNavigator';
 
@@ -21,6 +22,7 @@ const App = () => {
         <Stack.Screen name="Perfil" component={ProfileScreen} />
         <Stack.Screen name="Configurações" component={SettingsScreen} />
         <Stack.Screen name="Pedidos" component={PedidosScreen} />
+        <Stack.Screen name="Cadastro2" component={Cadastro2} />
         <Stack.Screen 
           name="Home" 
           component={DrawerNavigator}  // Usa o DrawerNavigator aqui

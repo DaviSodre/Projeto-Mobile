@@ -4,14 +4,14 @@ import { loginUser } from '../api';
 import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
-  const [username, setUsername] = useState(''); // Alterar de email para username
+  const [email, setEmail] = useState(''); // Email permanece como está
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigation = useNavigation(); 
 
   const handleLogin = async () => {
     try {
-      const response = await loginUser(username, password); // Passando username
+      const response = await loginUser(email, password); // Passando email
       setMessage(response.message);
       navigation.navigate('Home'); 
     } catch (error) {
@@ -22,9 +22,9 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <TextInput
-        placeholder="Nome de Usuário" // Alterado para Nome de Usuário
-        value={username}
-        onChangeText={setUsername}
+        placeholder="Email" // Placeholder continua Email
+        value={email}
+        onChangeText={setEmail}
         style={styles.input}
       />
       

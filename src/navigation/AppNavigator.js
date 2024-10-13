@@ -18,7 +18,11 @@ const Stack = createStackNavigator();
 function StackNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen 
+        name="Home" 
+        component={HomeScreen} 
+        options={{ title: 'Aplicativo de Festa' }} // Definindo o título aqui
+      />
       <Stack.Screen name="Perfil" component={ProfileScreen} />
       <Stack.Screen name="Configurações" component={SettingsScreen} />
       <Stack.Screen name="Pedidos" component={PedidosScreen} />
@@ -30,8 +34,8 @@ function StackNavigator() {
 const Drawer = createDrawerNavigator();
 function DrawerNavigator() {
   return (
-    <Drawer.Navigator initialRouteName="Home">
-      <Drawer.Screen name="Home" component={HomeScreen} />
+    <Drawer.Navigator initialRouteName="Aplicativo de Festa">
+      <Drawer.Screen name="Home" component={HomeScreen} options={{ title: 'Aplicativo de Festa' }} /> 
       <Drawer.Screen name="Perfil" component={ProfileScreen} />
       <Drawer.Screen name="Configurações" component={SettingsScreen} />
       <Drawer.Screen name="Pedidos" component={PedidosScreen} />
@@ -60,6 +64,7 @@ function TabNavigator() {
           tabBarIcon: ({ color, size }) => (
             <Icon name="person" color={color} size={size} />
           ),
+        title: 'Aplicativo de Festa'
         }} 
       />
       <Tab.Screen 

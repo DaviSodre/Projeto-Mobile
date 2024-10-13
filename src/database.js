@@ -1,4 +1,4 @@
-import { SQLite } from 'expo-sqlite';
+
 
 // Inicializa o banco de dados
 export async function initializeDatabase(database) {
