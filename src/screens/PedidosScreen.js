@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, Linking } from 'rea
 import { useFocusEffect } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
 
-const PedidosScreen = () => {
+const PedidosScreen = ({ navigation }) => {
   const [cartItems, setCartItems] = useState([]);
   const [userData, setUserData] = useState({ name: '', age: '', neighborhood: '' }); // Para armazenar os dados do usuário
 
@@ -108,7 +108,7 @@ return (
         <Text style={styles.errorMessage}>Cadastre seus dados primeiro antes de entrar nessa aba!</Text>
         <TouchableOpacity 
           style={styles.cadastroButton} 
-          onPress={() => navigation.navigate('Cadastro2')} // Altere 'Cadastro2' para o nome correto da sua tela
+          onPress={() => navigation.navigate('Cadastro2')} 
         >
           <Text style={styles.buttonText}>Ir para Cadastro</Text>
         </TouchableOpacity>

@@ -156,7 +156,7 @@ const Cadastro2 = ({ navigation, route }) => {
       />
     ) : (
       <Text style={[styles.info, { fontSize: 30, fontWeight: 'bold' }]}>
-  {name || username || "Toque para adicionar um nome"}
+  {name || "Toque para adicionar um nome"}
 </Text>
     )}
   </TouchableOpacity>
