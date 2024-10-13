@@ -28,7 +28,7 @@ const Cadastro2 = ({ navigation, route }) => {
       const savedAvatar = await AsyncStorage.getItem('@avatar');
       if (savedAvatar !== null) {
         setAvatarBase64(savedAvatar);
-        console.log('Avatar carregado do AsyncStorage:', savedAvatar);
+        
       }
     } catch (e) {
       console.error('Erro ao carregar o avatar:', e);
@@ -79,7 +79,7 @@ const Cadastro2 = ({ navigation, route }) => {
           const parsedData = JSON.parse(usersData);
           const loggedEmail = await SecureStore.getItemAsync('loggedEmail'); // Email logado
           const currentUser = parsedData[loggedEmail]; // Dados do usuário atual
-          
+          console.log('Usuário atual:', currentUser);
           if (currentUser) {
             setName(currentUser.nome || '');
             setAge(currentUser.idade || '');
@@ -93,6 +93,8 @@ const Cadastro2 = ({ navigation, route }) => {
   
     fetchUserData();
   }, []);
+
+  
 
   const handleSave = async () => {
     try {
@@ -154,7 +156,7 @@ const Cadastro2 = ({ navigation, route }) => {
       />
     ) : (
       <Text style={[styles.info, { fontSize: 30, fontWeight: 'bold' }]}>
-  {name + " ✏️" || username + "✏️" || "Toque para adicionar um nome"}
+  {name || username || "Toque para adicionar um nome"}
 </Text>
     )}
   </TouchableOpacity>
@@ -183,7 +185,7 @@ const Cadastro2 = ({ navigation, route }) => {
         onBlur={() => setIsEditingAge(false)}
       />
     ) : (
-      <Text style={styles.info}>{age + " ✏️" || "Toque para adicionar uma idade"}</Text>
+      <Text style={styles.info}>{age || "Toque para adicionar uma idade"}</Text>
       
     )}
   </TouchableOpacity>
@@ -193,7 +195,7 @@ const Cadastro2 = ({ navigation, route }) => {
 
       <View style={styles.infoContainer}>
         
-      <Text style={styles.label}>Bairro</Text>
+      <Text style={styles.label}>Endereço</Text>
   <TouchableOpacity 
     style={styles.inputContainer} 
     onPress={() => {
@@ -210,7 +212,7 @@ const Cadastro2 = ({ navigation, route }) => {
         onBlur={() => setIsEditingNeighborhood(false)}
       />
     ) : (
-      <Text style={styles.info}>{neighborhood +" ✏️" || "Toque para adicionar um bairro"}</Text>
+      <Text style={styles.info}>{neighborhood || "Toque para adicionar um endereço"}</Text>
     )}
   </TouchableOpacity>
   

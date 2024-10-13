@@ -35,15 +35,22 @@ const HomeScreen = ({ navigation }) => {
         <Text style={styles.boxText}>Perfil</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Loja', {username})}>
+        <Icon name="store" size={30} color="#fff" /> 
+        <Text style={styles.boxText}>Loja</Text>
+      </TouchableOpacity>
+
       <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Configurações')}>
         <Icon name="settings" size={30} color="#fff" />
         <Text style={styles.boxText}>Configurações</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Pedidos')}>
+      <TouchableOpacity style={styles.box} onPress={() => navigation.navigate('Pedidos', {username})}>
         <Icon name="list-alt" size={30} color="#fff" />
         <Text style={styles.boxText}>Pedidos</Text>
       </TouchableOpacity>
+
+      
     </View>
   );
 };

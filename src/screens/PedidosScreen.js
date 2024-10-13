@@ -1,84 +1,122 @@
-// PedidosScreen.js
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Linking } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import * as SecureStore from 'expo-secure-store';
-import { fetchLoggedUserData } from '../api'; // Ajuste o caminho
 
 const PedidosScreen = () => {
-  const [orders, setOrders] = useState([]);
-  const [username, setUsername] = useState('');
+  const [cartItems, setCartItems] = useState([]);
+  const [userData, setUserData] = useState({ name: '', age: '', neighborhood: '' }); // Para armazenar os dados do usuário
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const userData = await fetchLoggedUserData();
-        
-        if (!userData) {
-          Alert.alert('Usuário não logado', 'Você precisa estar logado para ver seus pedidos.');
-          return;
+  // Função para buscar dados do usuário (adapte conforme necessário)
+  const fetchUserData = async () => {
+    try {
+      const usersData = await SecureStore.getItemAsync('users');
+      if (usersData) {
+        const parsedData = JSON.parse(usersData);
+        const loggedEmail = await SecureStore.getItemAsync('loggedEmail'); // Email logado
+        const currentUser = parsedData[loggedEmail]; // Dados do usuário atual
+        console.log('Usuário atual:', currentUser);
+        if (currentUser) {
+          // Atualiza o estado com os dados do usuário atual
+          setUserData({
+            name: currentUser.nome || '',
+            age: currentUser.idade || '',
+            neighborhood: currentUser.bairro || '',
+          });
         }
-  
-        setUsername(userData.username);
-  
-        const ordersData = JSON.parse(await SecureStore.getItemAsync('orders')) || {};
-        const userOrders = ordersData[username] || [];
-        setOrders(userOrders);
-  
-        // Log para verificar a estrutura dos pedidos
-        console.log('Pedidos do usuário:', userOrders);
-      } catch (error) {
-        console.error('Erro ao buscar pedidos:', error);
       }
-    };
-  
-    fetchOrders();
-  }, []);
-
-  const removeOrder = async (orderId) => {
-    const ordersData = JSON.parse(await SecureStore.getItemAsync('orders')) || {};
-    ordersData[username] = ordersData[username].filter(order => order.id !== orderId);
-    await SecureStore.setItemAsync('orders', JSON.stringify(ordersData));
-    
-    // Atualiza o estado
-    setOrders(ordersData[username]);
-    Alert.alert('Pedido Removido', 'O pedido foi removido com sucesso!');
+    } catch (error) {
+      console.error('Erro ao buscar dados do usuário:', error);
+    }
   };
 
-  const renderOrder = ({ item }) => (
-    <View style={styles.orderContainer}>
-      <Text style={styles.orderTitle}>{item.title}</Text>
-      <Text style={styles.orderDescription}>{item.description}</Text>
+  const fetchCartItems = async () => {
+    try {
+      const existingCart = await SecureStore.getItemAsync('cart');
+      const cart = existingCart ? JSON.parse(existingCart) : [];
+      setCartItems(cart);
+    } catch (error) {
+      console.error('Erro ao buscar itens do carrinho:', error);
+    }
+  };
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity 
-          style={styles.removeButton} 
-          onPress={() => removeOrder(item.id)}
-        >
-          <Text style={styles.buttonText}>Remover</Text>
-        </TouchableOpacity>
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchCartItems();
+      fetchUserData(); // Buscar os dados do usuário
+    }, [])
+  );
 
-        <TouchableOpacity 
-          style={styles.payButton}
-          onPress={() => Alert.alert('Função Pagar', 'A funcionalidade de pagamento ainda não está implementada.')}
-        >
-          <Text style={styles.buttonText}>Pagar</Text>
-        </TouchableOpacity>
-      </View>
+  const handleRemoveFromCart = async (itemToRemove) => {
+    try {
+      const existingCart = await SecureStore.getItemAsync('cart');
+      let cart = existingCart ? JSON.parse(existingCart) : [];
+      cart = cart.filter(item => item.id !== itemToRemove.id);
+      await SecureStore.setItemAsync('cart', JSON.stringify(cart));
+      setCartItems(cart);
+      alert(`${itemToRemove.title} removido do carrinho!`);
+    } catch (error) {
+      console.error('Erro ao remover do carrinho:', error);
+    }
+  };
+
+  const formatMessage = () => {
+    const items = cartItems.map(item => item.title).join(', ');
+    return `Olá, meu nome é ${userData.name}, tenho ${userData.age} anos e moro no endereço: ${userData.neighborhood}. Gostaria de pedir: ${items}.`;
+  };
+
+  const handleFinalizarPedido = () => {
+    const message = formatMessage();
+    const encodedMessage = encodeURIComponent(message);
+    const phoneNumber = '5521979354409'; // Insira o número de telefone (com código do país)
+    const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    Linking.openURL(whatsappLink);
+  };
+
+  const renderItem = ({ item }) => (
+    <View style={styles.itemContainer}>
+      <Text style={styles.itemTitle}>{item.title}</Text>
+      <Text style={styles.itemDescription}>{item.description}</Text>
+      <TouchableOpacity 
+        style={styles.removeButton} 
+        onPress={() => handleRemoveFromCart(item)}
+      >
+        <Text style={styles.buttonText}>Remover</Text>
+      </TouchableOpacity>
     </View>
   );
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Meus Pedidos</Text>
-      <FlatList
-        data={orders}
-        renderItem={renderOrder}
-        keyExtractor={(item) => item.id.toString()} // Convertendo id para string se necessário
-        contentContainerStyle={styles.listContainer}
-      />
-    </View>
-  );
-};
+  const isUserDataComplete = userData.name && userData.age && userData.neighborhood;
+
+return (
+  <View style={styles.container}>
+    {isUserDataComplete ? (
+      <>
+        <Text style={styles.header}>Meus Pedidos</Text>
+        <FlatList
+          data={cartItems}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        />
+        <TouchableOpacity style={styles.finalizarButton} onPress={handleFinalizarPedido}>
+          <Text style={styles.buttonText}>Finalizar Pedido</Text>
+        </TouchableOpacity>
+      </>
+    ) : (
+      <>
+        <Text style={styles.errorMessage}>Cadastre seus dados primeiro antes de entrar nessa aba!</Text>
+        <TouchableOpacity 
+          style={styles.cadastroButton} 
+          onPress={() => navigation.navigate('Cadastro2')} // Altere 'Cadastro2' para o nome correto da sua tela
+        >
+          <Text style={styles.buttonText}>Ir para Cadastro</Text>
+        </TouchableOpacity>
+      </>
+    )}
+  </View>
+);
+}
 
 
 const styles = StyleSheet.create({
@@ -92,41 +130,52 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 16,
   },
-  orderContainer: {
-    backgroundColor: '#6200ee',
-    padding: 20,
+  itemContainer: {
+    backgroundColor: '#fff',
     borderRadius: 10,
+    padding: 16,
     marginBottom: 16,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  orderTitle: {
-    color: '#fff',
+  itemTitle: {
     fontSize: 18,
+    fontWeight: 'bold',
   },
-  orderDescription: {
-    color: '#fff',
-    marginVertical: 8,
+  itemDescription: {
+    fontSize: 14,
+    color: '#666',
   },
-  buttonContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
+  cadastroButton: {
+    backgroundColor: '#6200ee', // Cor do botão
+    borderRadius: 5,
+    padding: 10,
+    alignItems: 'center',
+    marginTop: 20, // Margem superior para espaçar do texto
   },
   removeButton: {
-    backgroundColor: '#d32f2f',
-    padding: 10,
+    backgroundColor: '#ff4d4d',
     borderRadius: 5,
+    padding: 10,
+    marginTop: 10,
+    alignItems: 'center',
   },
-  payButton: {
-    backgroundColor: '#388e3c',
-    padding: 10,
+  finalizarButton: {
+    backgroundColor: '#4CAF50',
     borderRadius: 5,
+    padding: 10,
+    marginTop: 20,
+    alignItems: 'center',
   },
   buttonText: {
     color: '#fff',
     fontSize: 16,
-  },
-  listContainer: {
-    paddingBottom: 20,
   },
 });
 
