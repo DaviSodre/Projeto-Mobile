@@ -2,16 +2,30 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
 import { loginUser } from '../api'; 
 import { useNavigation } from '@react-navigation/native';
+import * as Crypto from 'expo-crypto'; // Importando expo-crypto
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState(''); // Email permanece como está
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigation = useNavigation(); 
 
+  // Função para criptografar a senha
+  const encryptPassword = async (password) => {
+    const hash = await Crypto.digestStringAsync(
+      Crypto.CryptoDigestAlgorithm.SHA256,
+      password
+    );
+    return hash;
+  };
+
   const handleLogin = async () => {
     try {
-      const response = await loginUser(email, password); // Passando email
+      // Criptografar a senha antes de tentar logar
+      const encryptedPassword = await encryptPassword(password);
+
+      // Envia o email e a senha criptografada para o backend
+      const response = await loginUser(email, encryptedPassword);
       setMessage(response.message);
       navigation.navigate('Home'); 
     } catch (error) {
@@ -22,7 +36,7 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <TextInput
-        placeholder="Email" // Placeholder continua Email
+        placeholder="Email"
         value={email}
         onChangeText={setEmail}
         style={styles.input}

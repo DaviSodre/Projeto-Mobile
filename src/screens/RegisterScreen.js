@@ -2,24 +2,37 @@ import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
 import { registerUser } from '../api'; 
 import { useNavigation } from '@react-navigation/native';
+import * as Crypto from 'expo-crypto'; // Importando expo-crypto
 
 const RegisterScreen = () => {
-  const [username, setUsername] = useState(''); // Novo estado para o nome de usuário
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
+
+  // Função para criptografar a senha
+  const encryptPassword = async (password) => {
+    const hash = await Crypto.digestStringAsync(
+      Crypto.CryptoDigestAlgorithm.SHA256,
+      password
+    );
+    return hash;
+  };
 
   const handleRegister = async () => {
     try {
-      const response = await registerUser(username, email, password); // Passa o nome de usuário
+      // Criptografar a senha antes de registrar
+      const encryptedPassword = await encryptPassword(password);
+
+      // Envia o nome de usuário, email e senha criptografada para o backend
+      const response = await registerUser(username, email, encryptedPassword);
       setMessage(response.message);
+
+      // Navega para a tela de Login após o registro
       navigation.navigate('Login');
- // Navega para a tela de Login após registro
     } catch (error) {
       setMessage(error.message);
-      
-
     }
   };
 

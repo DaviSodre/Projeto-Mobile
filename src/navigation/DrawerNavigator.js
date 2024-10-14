@@ -11,7 +11,7 @@ function DrawerNavigator() {
   return (
     <Drawer.Navigator initialRouteName="HomeTabs">
       {/* TabNavigator já gerencia suas telas */}
-      <Drawer.Screen name="HomeTabs" component={TabNavigator} options={{ title: 'Aplicativo de Festas' }} /> 
+      <Drawer.Screen name="HomeTabs" component={TabNavigator} options={{ title: 'Festas encantadas & Cia' }} /> 
       <Drawer.Screen name="Configurações" component={SettingsScreen} />
       <Drawer.Screen name="Pedidos" component={PedidosScreen} />
     </Drawer.Navigator>

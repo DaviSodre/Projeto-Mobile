@@ -105,7 +105,9 @@ return (
       </>
     ) : (
       <>
+        
         <Text style={styles.errorMessage}>Cadastre seus dados primeiro antes de entrar nessa aba!</Text>
+        
         <TouchableOpacity 
           style={styles.cadastroButton} 
           onPress={() => navigation.navigate('Cadastro2')} 

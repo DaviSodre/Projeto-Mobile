@@ -79,7 +79,7 @@ const LojaScreen = ({ navigation, route }) => {
           <Text style={styles.buttonText}>Mais Informações</Text>
         </TouchableOpacity>
         <TouchableOpacity 
-          style={styles.button} 
+          style={styles.button2} 
           onPress={() => handleAddToCart(item)}
         >
           <Text style={styles.buttonText}>Adicionar</Text>
@@ -165,6 +165,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button: {
+    backgroundColor: '#6200ee',
+    borderRadius: 5,
+    padding: 8.5,
+    flex: 1,
+    alignItems: 'center',
+    marginHorizontal: 5,
+  },
+  button2: {
     backgroundColor: '#6200ee',
     borderRadius: 5,
     padding: 10,
