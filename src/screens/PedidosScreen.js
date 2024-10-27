@@ -78,6 +78,7 @@ const PedidosScreen = ({ navigation }) => {
     <View style={styles.itemContainer}>
       <Text style={styles.itemTitle}>{item.title}</Text>
       <Text style={styles.itemDescription}>{item.description}</Text>
+      <Text style={styles.productPrice}>{item.price}</Text>
       <TouchableOpacity 
         style={styles.removeButton} 
         onPress={() => handleRemoveFromCart(item)}

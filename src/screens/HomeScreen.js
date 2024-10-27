@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     marginLeft: 10,
-    fontFamily: 'Cochin', // Mudar a fonte para algo mais alegre
+    
   },
 });
 

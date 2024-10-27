@@ -8,28 +8,32 @@ const products = [
     title: 'Kit Diamante',
     image: require('../img/kitDiamante.jpg'),
     description: 'O kit com mais itens!',
-    details: 'O Kit Diamante inclui: \n\n- Painel redondo com capa\n- Painel Romano com capa\n- 3 Mesas cilindros com capas\n- Displays do tema.\n- Bandejas.\n- 1 vaso com flores ou buchinho.\n- 1 Tapete\n- 1 Escadinha de lembrancinha.'
+    details: 'O Kit Diamante inclui: \n\n- Painel redondo com capa\n- Painel Romano com capa\n- 3 Mesas cilindros com capas\n- Displays do tema.\n- Bandejas.\n- 1 vaso com flores ou buchinho.\n- 1 Tapete\n- 1 Escadinha de lembrancinha.',
+    price: 'R$ 200',
   },
   {
     id: '2',
     title: 'Kit Ouro',
     image: require('../img/kitOuro.jpg'),
     description: 'Kit Ouro pode ser perfeito para o que você procura!',
-    details: 'O Kit Ouro inclui: \n\n- Painel redondo com capa\n- 3 Mesas cilindros com capas\n- Displays do tema.\n- Bandejas.\n- 1 vaso com flores ou buchinho.\n- 1 Tapete\n- 1 Escadinha de lembrancinha.\n- 1 Mesa reta'
+    details: 'O Kit Ouro inclui: \n\n- Painel redondo com capa\n- 3 Mesas cilindros com capas\n- Displays do tema.\n- Bandejas.\n- 1 vaso com flores ou buchinho.\n- 1 Tapete\n- 1 Escadinha de lembrancinha.\n- 1 Mesa reta',
+    price: 'R$ 180',
   },
   {
     id: '3',
     title: 'Kit Prata',
     image: require('../img/kitPrata.jpg'),
     description: 'Para você que quer uma festa básica porém bem feita!',
-    details: 'O Kit Prata inclui: \n\n- Painel redondo com capa\n- 3 Mesas cilindros com capas\n- Displays do tema.\n- Bandejas.\n- 1 vaso com flores ou buchinho.\n- 1 Tapete\n- 1 Escadinha de lembrancinha.'
+    details: 'O Kit Prata inclui: \n\n- Painel redondo com capa\n- 3 Mesas cilindros com capas\n- Displays do tema.\n- Bandejas.\n- 1 vaso com flores ou buchinho.\n- 1 Tapete\n- 1 Escadinha de lembrancinha.',
+    price: 'R$ 160',
   },
   {
     id: '4',
     title: 'Kit Bronze',
     image: require('../img/kitBronze.jpg'),
     description: 'Para você que quer uma festa sem gastar muito!',
-    details: 'O Kit Bronze inclui: \n\n- Painel redondo com capa\n- 3 Mesas cilindros com capas\n- Displays do tema.\n- 1 vaso com flores ou buchinho.\n- 1 Tapete\n- 1 Escadinha de lembrancinha.'
+    details: 'O Kit Bronze inclui: \n\n- Painel redondo com capa\n- 3 Mesas cilindros com capas\n- Displays do tema.\n- 1 vaso com flores ou buchinho.\n- 1 Tapete\n- 1 Escadinha de lembrancinha.',
+    price: 'R$ 140',
   },
 ];
 
@@ -66,6 +70,7 @@ const LojaScreen = ({ navigation, route }) => {
       <Image source={item.image} style={styles.productImage} />
       <Text style={styles.productTitle}>{item.title}</Text>
       <Text style={styles.productDescription}>{item.description}</Text>
+      <Text style={styles.productPrice}>{item.price}</Text>
       <View style={styles.buttonContainer}>
         <TouchableOpacity 
           style={styles.button} 
@@ -149,6 +154,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 8,
   },
+  productPrice: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+    marginVertical: 4,
+  },
+  
   productTitle: {
     fontSize: 18,
     fontWeight: 'bold',

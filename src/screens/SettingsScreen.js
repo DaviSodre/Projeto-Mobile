@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, Switch, Vibration } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingsScreen = ({ navigation }) => {
-  
   const [isNotificationsEnabled, setIsNotificationsEnabled] = useState(false);
-
-  // Função para lidar com a ativação/desativação do modo escuro
-  
 
   // Função para lidar com a ativação/desativação das notificações
   const toggleNotifications = () => {
@@ -16,12 +13,21 @@ const SettingsScreen = ({ navigation }) => {
     }
   };
 
+  // Função para realizar o logout
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('email');
+      await AsyncStorage.removeItem('password');
+      navigation.replace('Login'); // Navega para a tela de login após sair
+    } catch (error) {
+      console.error('Erro ao sair:', error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Configurações</Text>
 
-
-      {/* Opção para Ativar/Desativar as Notificações */}
       <View style={styles.setting}>
         <Text style={styles.text}>Ativar notificações</Text>
         <Switch
@@ -30,7 +36,7 @@ const SettingsScreen = ({ navigation }) => {
         />
       </View>
 
-      
+      <Button title="Sair da conta" onPress={handleLogout} color="#FF0000" />
     </View>
   );
 };
