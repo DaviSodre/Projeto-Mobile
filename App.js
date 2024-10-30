@@ -20,14 +20,14 @@ const App = () => {
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Loja" component={LojaScreen} />
-        <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Registrar" component={RegisterScreen} />
         <Stack.Screen name="Perfil" component={ProfileScreen} />
         <Stack.Screen name="Configurações" component={SettingsScreen} />
         <Stack.Screen name="Pedidos" component={PedidosScreen} />
         <Stack.Screen name="Cadastro2" component={Cadastro2} />
         <Stack.Screen 
           name="Home" 
-          component={DrawerNavigator}  // Usa o DrawerNavigator aqui
+          component={DrawerNavigator} 
           options={{ headerShown: false }} 
         />
         

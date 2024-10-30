@@ -90,7 +90,7 @@ const LoginScreen = () => {
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Register')}>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Registrar')}>
           <Text style={styles.buttonText}>Registrar</Text>
         </TouchableOpacity>
         

@@ -4,17 +4,17 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as SecureStore from 'expo-secure-store';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import editIcon from '../img/45706.png'; // Caminho da sua imagem
+import editIcon from '../img/45706.png'; 
 
 const Cadastro2 = ({ navigation, route }) => {
-  const { username } = route.params || {}; // Username é passado como parâmetro
+  const { username } = route.params || {}; 
   const [name, setName] = useState('');
   const [age, setAge] = useState('');
   const [neighborhood, setNeighborhood] = useState('');
   const [isEditingName, setIsEditingName] = useState(false);
   const [isEditingAge, setIsEditingAge] = useState(false);
   const [isEditingNeighborhood, setIsEditingNeighborhood] = useState(false);
-  const [avatarBase64, setAvatarBase64] = useState(null); // Estado para armazenar a imagem em Base64
+  const [avatarBase64, setAvatarBase64] = useState(null); 
   const saveAvatar = async (base64) => {
     try {
       await AsyncStorage.setItem('@avatar', base64);

@@ -60,9 +60,22 @@ const PedidosScreen = ({ navigation }) => {
     }
   };
 
+  const calculateTotal = () => {
+    return cartItems.reduce((total, item) => {
+      // Certifique-se de que o preço está no formato esperado
+      const priceString = item.price.replace('R$', '').trim(); // Remove "R$" e espaços
+      const price = parseFloat(priceString.replace(',', '.')); // Converte para float, se necessário
+      console.log(`Calculando preço para ${item.title}: ${priceString} -> ${price}`); // Log para depuração
+      return total + (isNaN(price) ? 0 : price); // Verifica se o valor é um número
+    }, 0).toFixed(2);
+  };
+  
+  
+
   const formatMessage = () => {
     const items = cartItems.map(item => item.title).join(', ');
-    return `Olá, meu nome é ${userData.name}, tenho ${userData.age} anos e moro no endereço: ${userData.neighborhood}. Gostaria de pedir: ${items}.`;
+    const total = calculateTotal();
+    return `Olá, meu nome é *${userData.name}*, tenho *${userData.age}* anos e moro no endereço: \n\n*${userData.neighborhood}*. \n\nGostaria de pedir: *${items}*. \n\nTotalizando em um total de *R$ ${total}*.`;
   };
 
   const handleFinalizarPedido = () => {
@@ -90,37 +103,35 @@ const PedidosScreen = ({ navigation }) => {
 
   const isUserDataComplete = userData.name && userData.age && userData.neighborhood;
 
-return (
-  <View style={styles.container}>
-    {isUserDataComplete ? (
-      <>
-        <Text style={styles.header}>Meus Pedidos</Text>
-        <FlatList
-          data={cartItems}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
-        <TouchableOpacity style={styles.finalizarButton} onPress={handleFinalizarPedido}>
-          <Text style={styles.buttonText}>Finalizar Pedido</Text>
-        </TouchableOpacity>
-      </>
-    ) : (
-      <>
-        
-        <Text style={styles.errorMessage}>Cadastre seus dados primeiro antes de entrar nessa aba!</Text>
-        
-        <TouchableOpacity 
-          style={styles.cadastroButton} 
-          onPress={() => navigation.navigate('Cadastro2')} 
-        >
-          <Text style={styles.buttonText}>Ir para Cadastro</Text>
-        </TouchableOpacity>
-      </>
-    )}
-  </View>
-);
+  return (
+    <View style={styles.container}>
+      {isUserDataComplete ? (
+        <>
+          <Text style={styles.header}>Meus Pedidos</Text>
+          <FlatList
+            data={cartItems}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
+          <Text style={styles.totalText}>Total: R$ {calculateTotal()}</Text>
+          <TouchableOpacity style={styles.finalizarButton} onPress={handleFinalizarPedido}>
+            <Text style={styles.buttonText}>Finalizar Pedido</Text>
+          </TouchableOpacity>
+        </>
+      ) : (
+        <>
+          <Text style={styles.errorMessage}>Cadastre seus dados primeiro antes de entrar nessa aba!</Text>
+          <TouchableOpacity 
+            style={styles.cadastroButton} 
+            onPress={() => navigation.navigate('Cadastro2')} 
+          >
+            <Text style={styles.buttonText}>Ir para Cadastro</Text>
+          </TouchableOpacity>
+        </>
+      )}
+    </View>
+  );
 }
-
 
 const styles = StyleSheet.create({
   container: {
@@ -155,6 +166,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#666',
   },
+  productPrice: {
+    fontSize: 16,
+    color: '#000',
+    marginTop: 4,
+  },
+  totalText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginTop: 16,
+  },
   cadastroButton: {
     backgroundColor: '#6200ee', // Cor do botão
     borderRadius: 5,
@@ -179,6 +200,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 16,
+  },
+  errorMessage: {
+    color: '#d9534f',
+    fontSize: 16,
+    marginTop: 20,
   },
 });
 

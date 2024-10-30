@@ -5,7 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import PedidosScreen from '../screens/PedidosScreen';
-import SettingsScreen from '../screens/ProfileScreen';
 import HomeScreen from '../screens/HomeScreen'; // Certifique-se de ter esta tela
 import SettingsScreen from '../screens/SettingsScreen'; // Se você tiver uma tela de configurações
 import { MaterialCommunityIcons } from '@expo/vector-icons';
