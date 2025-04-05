@@ -37,8 +37,8 @@ npm install -g expo-cli
 2. Clone o repositório e instale as dependências:
 ```bash
 
-git clone https://github.com/DaviSodre/NOME-DO-REPOSITORIO.git
-cd NOME-DO-REPOSITORIO
+git clone https://github.com/DaviSodre/Projeto-Mobile.git
+cd Projeto-Mobile
 npm install
 ```
 
